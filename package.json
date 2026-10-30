@@ -1,0 +1,40 @@
+{
+  "name": "n01cvr3z",
+  "version": "1.0.0",
+  "description": "Encrypted diary with a depressed terminal interface",
+  "main": "main.js",
+  "author": "N01CVR3Z",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.n01cvr3z.diary",
+    "productName": "N01CVR3Z",
+    "win": {
+      "target": "portable",
+      "icon": null
+    },
+    "portable": {
+      "artifactName": "N01CVR3Z.exe"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "allowScripts": {
+    "electron@28.3.3": true
+  }
+}

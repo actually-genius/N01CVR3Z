@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self';">
+  <title>N01CVR3Z</title>
+  <link rel="stylesheet" href="styles/fonts.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/crt.css">
+</head>
+<body>
+
+  <!-- ═══ Custom Title Bar ═══ -->
+  <div id="title-bar">
+    <span class="title-bar-text">n01cvr3z</span>
+    <div class="title-bar-controls">
+      <button id="btn-minimize" title="Minimize">[_]</button>
+      <button id="btn-close" title="Close">[x]</button>
+    </div>
+  </div>
+
+  <div id="app">
+
+    <!-- ═══ Boot Screen ═══ -->
+    <div id="boot-screen" class="view active">
+      <div id="boot-output"></div>
+    </div>
+
+    <!-- ═══ Entry List ═══ -->
+    <div id="list-view" class="view">
+      <div class="view-header">
+        <h1 class="gothic-heading">// entries</h1>
+        <div class="header-actions">
+          <button id="btn-new-entry" class="btn-terminal btn-primary">[+ new]</button>
+          <button id="btn-import" class="btn-terminal">[import]</button>
+          <button id="btn-export-selected" class="btn-terminal" disabled>[export]</button>
+        </div>
+      </div>
+      <div id="entries-container"></div>
+      <div id="empty-state" class="hidden">
+        <div class="empty-icon">_</div>
+        <p class="dim">nothing here yet. just you and the cursor.</p>
+      </div>
+    </div>
+
+    <!-- ═══ New Entry ═══ -->
+    <div id="new-entry-view" class="view">
+      <div class="view-header">
+        <h1 class="gothic-heading">// new entry</h1>
+        <button id="btn-back-from-new" class="btn-terminal">[&larr; back]</button>
+      </div>
+      <div class="entry-form">
+        <label class="terminal-label">&gt; write it down before you forget:</label>
+        <textarea id="new-entry-text" class="terminal-textarea" dir="auto" placeholder="..." rows="10"></textarea>
+
+        <label class="terminal-label">&gt; leave a hint for your future self (not encrypted):</label>
+        <input id="new-entry-hint" class="terminal-input" dir="auto" type="text" placeholder="something to jog your memory...">
+
+        <label class="terminal-label">&gt; password:</label>
+        <div class="password-row">
+          <input id="new-entry-password" class="terminal-input" type="password" placeholder="••••••••" dir="ltr">
+          <button id="btn-toggle-new-pw" class="btn-terminal btn-eye" type="button">&#128065;</button>
+        </div>
+
+        <label class="terminal-label">&gt; confirm:</label>
+        <div class="password-row">
+          <input id="new-entry-password-confirm" class="terminal-input" type="password" placeholder="••••••••" dir="ltr">
+        </div>
+
+        <div id="new-entry-error" class="error-msg hidden"></div>
+
+        <div class="form-actions">
+          <button id="btn-save-new" class="btn-terminal btn-primary">[encrypt &amp; save]</button>
+          <button id="btn-cancel-new" class="btn-terminal">[cancel]</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Read Entry ═══ -->
+    <div id="read-view" class="view">
+      <div class="view-header">
+        <h1 class="gothic-heading">// entry</h1>
+        <div class="header-actions">
+          <button id="btn-edit-entry" class="btn-terminal">[edit]</button>
+          <button id="btn-delete-entry" class="btn-terminal btn-danger">[delete]</button>
+          <button id="btn-back-from-read" class="btn-terminal">[&larr; back]</button>
+        </div>
+      </div>
+      <div class="entry-meta">
+        <span id="read-date" class="dim"></span>
+        <span id="read-hint" class="hint-whisper"></span>
+      </div>
+      <div id="read-content" class="entry-content" dir="auto"></div>
+    </div>
+
+    <!-- ═══ Edit Entry ═══ -->
+    <div id="edit-view" class="view">
+      <div class="view-header">
+        <h1 class="gothic-heading">// edit</h1>
+        <button id="btn-back-from-edit" class="btn-terminal">[&larr; back]</button>
+      </div>
+      <div class="entry-form">
+        <label class="terminal-label">&gt; entry:</label>
+        <textarea id="edit-entry-text" class="terminal-textarea" dir="auto" rows="10"></textarea>
+
+        <label class="terminal-label">&gt; hint:</label>
+        <input id="edit-entry-hint" class="terminal-input" dir="auto" type="text">
+
+        <label class="terminal-label">&gt; new password:</label>
+        <div class="password-row">
+          <input id="edit-entry-password" class="terminal-input" type="password" placeholder="••••••••" dir="ltr">
+          <button id="btn-toggle-edit-pw" class="btn-terminal btn-eye" type="button">&#128065;</button>
+        </div>
+
+        <label class="terminal-label">&gt; confirm:</label>
+        <div class="password-row">
+          <input id="edit-entry-password-confirm" class="terminal-input" type="password" placeholder="••••••••" dir="ltr">
+        </div>
+
+        <div id="edit-entry-error" class="error-msg hidden"></div>
+
+        <div class="form-actions">
+          <button id="btn-save-edit" class="btn-terminal btn-primary">[re-encrypt &amp; save]</button>
+          <button id="btn-cancel-edit" class="btn-terminal">[cancel]</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /app -->
+
+  <!-- ═══ Password Modal ═══ -->
+  <div id="password-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="gothic-heading">// locked</h2>
+      <div id="modal-hint" class="hint-whisper"></div>
+      <label class="terminal-label">&gt; password:</label>
+      <div class="password-row">
+        <input id="modal-password" class="terminal-input" type="password" placeholder="••••••••" dir="ltr">
+        <button id="btn-toggle-modal-pw" class="btn-terminal btn-eye" type="button">&#128065;</button>
+      </div>
+      <div id="modal-error" class="error-msg hidden"></div>
+      <div class="form-actions">
+        <button id="btn-unlock" class="btn-terminal btn-primary">[unlock]</button>
+        <button id="btn-cancel-modal" class="btn-terminal">[cancel]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Delete Confirmation Modal ═══ -->
+  <div id="delete-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 class="gothic-heading">// confirm delete</h2>
+      <p class="dim" style="margin: 4px 0 8px;">gone forever. no undo. are you sure?</p>
+      <div class="form-actions">
+        <button id="btn-confirm-delete" class="btn-terminal btn-danger">[delete]</button>
+        <button id="btn-cancel-delete" class="btn-terminal">[cancel]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CRT Overlay ═══ -->
+  <div id="crt-overlay"></div>
+
+  <script src="js/boot.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
