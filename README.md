@@ -61,7 +61,7 @@ Each entry is saved as an isolated JSON file in your system's `userData/entries/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/N01CVR3Z.git
+git clone https://github.com/actually-genius/N01CVR3Z.git
 cd N01CVR3Z
 
 # Install dependencies
