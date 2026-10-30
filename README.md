@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="N01-01.png" alt="N01CVR3Z" width="100%">
+</p>
+
 # n01cvr3z
 
 > *what is written in darkness shall remain in darkness.*
